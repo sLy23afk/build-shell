@@ -21,8 +21,9 @@ def main():
         command = input()
         
         # Check if input is empty (user pressed Enter)
-        if not command.strip() or command == "exit":
-            continue
+        if not command.exit(): 
+         continue
+        
         
         # Print command not found error
         print(f"{command}: command not found")
