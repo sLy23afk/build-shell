@@ -20,13 +20,17 @@ def main():
         sys.stdout.flush()
         command = input()
         
+        
         # Check if input is empty (user pressed Enter)
-        if not command.exit(): 
-         continue
+        # if not command.strip("exit"): 
+        #  continue
         
-        
+        # Check if user wants to exit
         # Print command not found error
         print(f"{command}: command not found")
+        if command.strip() == "exit":
+            continue
+
 
 if __name__ == "__main__":
     main()
