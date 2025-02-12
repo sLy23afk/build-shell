@@ -29,7 +29,7 @@ def main():
         # Print command not found error
         print(f"{command}: command not found")
         if command.strip() == "exit":
-            continue
+            exit
 
 
 if __name__ == "__main__":
