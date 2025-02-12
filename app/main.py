@@ -28,8 +28,11 @@ def main():
         # Check if user wants to exit
         # Print command not found error
         print(f"{command}: command not found")
-        if command.strip() == "exit":
-            exit
+        if command.lower().startswith("exit"):
+            sys.exit(0 if len(command.split()) == 1 
+                     else int(command.split()[1]))
+        
+       
 
 
 if __name__ == "__main__":
