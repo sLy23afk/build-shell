@@ -13,6 +13,17 @@
 #     main(command)
 
 import sys
+import os
+
+
+def executepth(path):
+ return os.path.isfile(path) and os.access(path, os.X_OK)
+def findexe(command):
+ for directory in os.environ.get("PATH", " ").split(":"):
+     possiblepath = os.path.join(directory, command)
+     if executepth(possiblepath):
+         return possiblepath
+     return None
 
 def main():
     while True:
@@ -23,18 +34,9 @@ def main():
         case1 = "exit"
         command = input()
         parts = command.split()
-                      
-                
-        
-        # Check if input is empty (user pressed Enter)
+        # Check if input is empty 
         # if not command.strip("exit"): 
         #  continue
-        
-        # Check if user wants to exit
-        # Print command not found error
-        #to check the echo command
-        # if command == "echo" and len(command.split()) > 1:
-        # print(command.split(0, 1))
         if parts[0] == case: 
             if parts[-1] == word_check:
               print(f"{parts[-1]} is a shell builtin")
@@ -50,14 +52,16 @@ def main():
         elif parts[0] == "echo":
             if len(parts) > 1:
              parts = ' '.join(parts[1:]) 
-             print (parts) 
-        # else: 
-        #     # parts[0:] == 'echo':   
+             print (parts)  
         elif word_check not in parts and case not in parts:
-        # next = input()
           print(f"{command}: command not found") 
-        
-            
+          continue
+        cmd_name = parts[1]
+        executable_path = findexe(cmd_name)
+        if executable_path:
+                print(f"{cmd_name} is {executable_path}")
+        else:
+                print(f"{cmd_name}: not found")         
        
 
 
