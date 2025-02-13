@@ -31,18 +31,18 @@ def main():
         #to check the echo command
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
-        while parts[0] == "echo":
-         if len(parts) > 1:
-          parts = ' '.join(parts[1:]) 
-          print (parts) 
+        if parts[0] == "echo":
+            if len(parts) > 1:
+             parts = ' '.join(parts[1:]) 
+             print (parts) 
         # else: 
         #     # parts[0:] == 'echo':   
-         if word_check not in parts:
+        elif word_check not in parts:
         # next = input()
           print(f"{next}: command not found") 
-         elif command.lower().startswith("exit"):
-            sys.exit(0 if len(next.split()) == 1 
-                     else int(next.split()[1]))
+        elif command.lower().startswith("exit"):
+            sys.exit(0 if len(command.split()) == 1 
+                     else int(command.split()[1]))
             
        
 
