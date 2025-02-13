@@ -41,7 +41,7 @@ def main():
             elif parts[-1] == case1:
                 print(f"{parts[-1]} is a shell builtin")
             else:
-                continue
+                print(f'{parts[-1]}: not found')
         if command.lower().startswith("exit"):
             sys.exit(0 if len(command.split()) == 1 
                          else int(command.split()[1]))
@@ -51,7 +51,7 @@ def main():
              print (parts) 
         # else: 
         #     # parts[0:] == 'echo':   
-        elif word_check not in parts:
+        elif word_check not in parts and case not in parts:
         # next = input()
           print(f"{command}: command not found") 
         
