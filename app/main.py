@@ -34,10 +34,10 @@ def main():
         if len(parts) > 1:
          parts = ' '.join(parts[1:]) 
         print (parts)        
-        # if command.lower().startswith("exit"):
-        #     sys.exit(0 if len(command.split()) == 1 
-        #              else int(command.split()[1]))
-        # print(f"{command}: command not found")
+        if command.lower().startswith("exit"):
+            sys.exit(0 if len(command.split()) == 1 
+                     else int(command.split()[1]))
+        print(f"{command}: command not found")
        
 
 
