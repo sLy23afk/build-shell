@@ -18,8 +18,8 @@ def main():
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
-        case = "type"
-        word_check = "echo"
+        case = "type" 
+        word_check = "echo" 
         case1 = "exit"
         command = input()
         parts = command.split()
@@ -40,6 +40,8 @@ def main():
               print(f"{parts[-1]} is a shell builtin")
             elif parts[-1] == case1:
                 print(f"{parts[-1]} is a shell builtin")
+            elif parts[-1] == case:
+                print(f'{parts[-1]} is a shell builtin')    
             else:
                 print(f'{parts[-1]}: not found')
         if command.lower().startswith("exit"):
