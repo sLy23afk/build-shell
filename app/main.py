@@ -18,6 +18,7 @@ def main():
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
+        word_check = "echo"
         command = input()
         parts = command.split()
         
@@ -36,13 +37,13 @@ def main():
           print (parts) 
         # else: 
         #     # parts[0:] == 'echo':   
-         elif parts[0] == "invalid":
+         if word_check not in command:
         # next = input()
-           continue
+          print(f"{next}: command not found") 
          elif command.lower().startswith("exit"):
             sys.exit(0 if len(next.split()) == 1 
                      else int(next.split()[1]))
-            print(f"{next}: command not found")
+            
        
 
 
