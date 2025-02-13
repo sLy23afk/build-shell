@@ -19,8 +19,11 @@ def main():
         sys.stdout.write("$ ")
         sys.stdout.flush()
         word_check = "echo"
+        case1 = "exit"
         command = input()
         parts = command.split()
+                      
+                
         
         # Check if input is empty (user pressed Enter)
         # if not command.strip("exit"): 
@@ -31,6 +34,13 @@ def main():
         #to check the echo command
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
+        if parts[0] == type: 
+            if parts[-1] == word_check
+            print(f"{parts[-1]} is a shell builtin")
+            if parts[-1] == case1:
+                print(f"{parts[-1]} is a shell builtin")
+            else:
+                continue
         if command.lower().startswith("exit"):
             sys.exit(0 if len(command.split()) == 1 
                          else int(command.split()[1]))
