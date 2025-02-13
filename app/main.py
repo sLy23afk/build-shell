@@ -30,12 +30,12 @@ def main():
         #to check the echo command
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
-        if parts[0] == "echo":
-            continue
-        elif len(parts) > 1:
-         parts = ' '.join(parts[1:]) 
-        print (parts) 
-        if not parts[0:] == 'echo':   
+        while parts[0] == "echo":
+         if len(parts) > 1:
+          parts = ' '.join(parts[1:]) 
+          print (parts) 
+        else: 
+            # parts[0:] == 'echo':   
          print(f"{command}: command not found")
          if command.lower().startswith("exit"):
             sys.exit(0 if len(command.split()) == 1 
