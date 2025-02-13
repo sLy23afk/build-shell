@@ -35,9 +35,9 @@ def main():
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
         if parts[0] == type: 
-            if parts[-1] == word_check
-            print(f"{parts[-1]} is a shell builtin")
-            if parts[-1] == case1:
+            if parts[-1] == word_check:
+              print(f"{parts[-1]} is a shell builtin")
+            elif parts[-1] == case1:
                 print(f"{parts[-1]} is a shell builtin")
             else:
                 continue
