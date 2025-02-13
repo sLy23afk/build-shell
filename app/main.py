@@ -36,12 +36,13 @@ def main():
           print (parts) 
         # else: 
         #     # parts[0:] == 'echo':   
-         
-         if command.lower().startswith("exit"):
-            sys.exit(0 if len(command.split()) == 1 
-                     else int(command.split()[1]))
-         else:
-             print(f"{command}: command not found")
+         elif parts[0] == "invalid":
+        # next = input()
+           continue
+         elif command.lower().startswith("exit"):
+            sys.exit(0 if len(next.split()) == 1 
+                     else int(next.split()[1]))
+            print(f"{next}: command not found")
        
 
 
