@@ -27,7 +27,10 @@ def main():
         
         # Check if user wants to exit
         # Print command not found error
-        
+        #to check the echo command
+        if command == "echo" and len(command.split()) > 1:
+            print(command.split()[1], end="")
+            
         if command.lower().startswith("exit"):
             sys.exit(0 if len(command.split()) == 1 
                      else int(command.split()[1]))
