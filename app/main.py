@@ -37,7 +37,7 @@ def main():
           print (parts) 
         # else: 
         #     # parts[0:] == 'echo':   
-         if word_check not in command:
+         if word_check not in parts:
         # next = input()
           print(f"{next}: command not found") 
          elif command.lower().startswith("exit"):
