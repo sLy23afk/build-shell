@@ -18,6 +18,7 @@ def main():
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
+        case = "type"
         word_check = "echo"
         case1 = "exit"
         command = input()
@@ -34,7 +35,7 @@ def main():
         #to check the echo command
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
-        if parts[0] == type: 
+        if parts[0] == case: 
             if parts[-1] == word_check:
               print(f"{parts[-1]} is a shell builtin")
             elif parts[-1] == case1:
