@@ -31,7 +31,10 @@ def main():
         #to check the echo command
         # if command == "echo" and len(command.split()) > 1:
         # print(command.split(0, 1))
-        if parts[0] == "echo":
+        if command.lower().startswith("exit"):
+            sys.exit(0 if len(command.split()) == 1 
+                         else int(command.split()[1]))
+        elif parts[0] == "echo":
             if len(parts) > 1:
              parts = ' '.join(parts[1:]) 
              print (parts) 
@@ -40,9 +43,7 @@ def main():
         elif word_check not in parts:
         # next = input()
           print(f"{command}: command not found") 
-        if command.lower().startswith("exit"):
-            sys.exit(0 if len(command.split()) == 1 
-                         else int(command.split()[1]))
+        
             
        
 
