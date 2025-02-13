@@ -40,9 +40,9 @@ def main():
         elif word_check not in parts:
         # next = input()
           print(f"{command}: command not found") 
-        elif command.lower().startswith("exit"):
+        if command.lower().startswith("exit"):
             sys.exit(0 if len(command.split()) == 1 
-                     else int(command.split()[1]))
+                         else int(command.split()[1]))
             
        
 
