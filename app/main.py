@@ -14,7 +14,7 @@
 
 import sys
 import os
-
+path = PATH="/usr/bin:/usr/local/bin"
 
 def executepth(path):
  return os.path.isfile(path) and os.access(path, os.X_OK)
@@ -37,6 +37,7 @@ def main():
         # Check if input is empty 
         # if not command.strip("exit"): 
         #  continue
+
         if parts[0] == case: 
             if parts[-1] == word_check:
               print(f"{parts[-1]} is a shell builtin")
