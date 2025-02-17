@@ -93,8 +93,6 @@ def main():
             continue
 
         parts = command.split()
-        cmd_name = parts[0]
-        cmd_args = parts[1:]
 
         # Handle `exit`
         if parts[0] == "exit":
@@ -116,11 +114,13 @@ def main():
             if cmd_name in builtins:
                 print(f"{cmd_name} is a shell builtin")
                 continue
-
+            cmd_1 = parts[0]
+            cmd_args = parts[1:]
+            
             # Search in PATH
             executable_path = find_executable(cmd_name)
             if executable_path:
-               subprocess.run([cmd_name] + cmd_args)
+               subprocess.run([cmd_1] + cmd_args)
         
                 # print(f"{cmd_name} is {executable_path}")
              
