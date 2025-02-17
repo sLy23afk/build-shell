@@ -120,7 +120,10 @@ def main():
             # Search in PATH
             executable_path = find_executable(cmd_name)
             if executable_path:
-                print(f"{cmd_name} is {executable_path}") 
+               subprocess.run([cmd_name] + cmd_args)
+        
+                # print(f"{cmd_name} is {executable_path}")
+             
             else:
                 print(f"{cmd_name}: not found")
         
@@ -129,14 +132,14 @@ def main():
             print(f"{command}: command not found")
             
             # Find and run the command.exe
-            exe_path = find_executable(cmd_name)
-            if exe_path:
-                try:
-                    subprocess.run([exe_path] + cmd_args)
-                except Exception as e:
-                 print(f"Error executing {cmd_name}: {e}")
-            else:
-             print(f"{cmd_name}: command not found")
+            # exe_path = find_executable(cmd_name)
+            # if exe_path:
+            #     try:
+            #         subprocess.run([exe_path] + cmd_args)
+            #     except Exception as e:
+            #      print(f"Error executing {cmd_name}: {e}")
+            # else:
+            #  print(f"{cmd_name}: command not found")
     
 if __name__ == "__main__":
     main()
