@@ -93,6 +93,8 @@ def main():
             continue
 
         parts = command.split()
+        cmd_name = parts[0]
+        cmd_args = parts[1:]
 
         # Handle `exit`
         if parts[0] == "exit":
@@ -127,8 +129,6 @@ def main():
             print(f"{command}: command not found")
             
             # Find and run the command.exe
-            cmd_name = parts[0]
-            cmd_args = parts[1:]
             exe_path = find_executable(cmd_name)
             if exe_path:
                 try:
