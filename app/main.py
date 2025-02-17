@@ -13,6 +13,7 @@
 #     main(command)
 
 import sys
+import subprocess
 import os
 # path = PATH="/usr/bin:/usr/local/bin"
 
@@ -118,12 +119,15 @@ def main():
             executable_path = find_executable(cmd_name)
             if executable_path:
                 print(f"{cmd_name} is {executable_path}")
+                subprocess.run(command, 'path')
             else:
                 print(f"{cmd_name}: not found")
         
         # If command is unknown
         else:
             print(f"{command}: command not found")
-
+            
+            # Run the command.exe
+    
 if __name__ == "__main__":
     main()
