@@ -68,133 +68,83 @@ import os
 # if __name__ == "__main__":
 #     main()
 #!/usr/bin/env python3
+def is_executable(path):
+    # Check if a file exists and is executable.
+    return os.path.isfile(path) and os.access(path, os.X_OK)
 
-
-# def is_executable(path):
-#     """Check if a file exists and is executable."""
-#     return os.path.isfile(path) and os.access(path, os.X_OK)
-
-# def find_executable(command):
-#     """Search for an executable in the PATH directories."""
-#     for directory in os.environ.get("PATH", "").split(":"):
-#         possible_path = os.path.join(directory, command)
-#         if is_executable(possible_path):
-#             return possible_path
-#     return None
-
-# def main():
-    # builtins = {"echo", "exit", "type"}  # List of shell builtins
-    
-    # while True:
-    #     sys.stdout.write("$ ")
-    #     sys.stdout.flush()
-    #     command = input().strip()
-        
-    #     # If user just presses enter, show the prompt again
-    #     if not command:
-    #         continue
-
-    #     parts = command.split()
-    #     cmd_1 = parts[0]
-    #     cmd_args = parts[1:]
-
-    #     # Handle `exit`
-    #     if parts[0] == "exit":
-    #         sys.exit(0 if len(parts) == 1 else int(parts[1]))
-
-    #     # Handle `echo` (print everything after "echo")
-    #     elif parts[0] == "echo":
-    #         print(" ".join(parts[1:]))
-        
-    #     # Handle `type` command
-    #     elif parts[0] == "type":
-    #         if len(parts) < 2:
-    #             print("Usage: type <command>")
-    #             continue
-
-    #         cmd_name = parts[1]
-    #         target_cmd = cmd_args[0]
-
-    #         # Check if it's a builtin
-    #         if cmd_name in builtins:
-    #             print(f"{cmd_name} is a shell builtin")
-    #             continue
-            
-    #         # Search in PATH
-    #         executable_path = find_executable(cmd_name)
-    #         if executable_path:
-    #            subprocess.run([cmd_1] + cmd_args, text= True)
-        
-    #             # print(f"{cmd_name} is {executable_path}")
-             
-    #         else:
-    #             print(f"{cmd_name}: not found")
-        
-    #     # If command is unknown
-    #     else:
-    #         print(f"{command}: command not found")
-            
-    #         # Find and run the command.exe
-    #         # exe_path = find_executable(cmd_name)
-    #         # if exe_path:
-    #         #     try:
-    #         #         subprocess.run([exe_path] + cmd_args)
-    #         #     except Exception as e:
-    #         #      print(f"Error executing {cmd_name}: {e}")
-    #         # else:
-    #         #  print(f"{cmd_name}: command not found")
+def find_executable(command):
+    # Search for an executable in the PATH directories.
+    for directory in os.environ.get("PATH", "").split(":"):
+        possible_path = os.path.join(directory, command)
+        if is_executable(possible_path):
+            return possible_path
+    return None
 
 def main():
+    builtins = {"echo", "exit", "type"}  # List of shell builtins
+    
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
         command = input().strip()
-
-        # Ignore empty input
+        
+        # If user just presses enter, show the prompt again
         if not command:
             continue
 
-        # Split command into parts
         parts = command.split()
-        cmd_name = parts[0]  # First word is the command
-        cmd_args = parts[1:]  # Remaining are arguments
+        cmd_name = parts[0]
+        cmd_args = parts[1:]
 
-        # Handle built-in commands
-        if cmd_name == "exit":
-            sys.exit(0 if len(cmd_args) == 0 else int(cmd_args[0]))
+        # Handle `exit`
+        if parts[0] == "exit":
+            sys.exit(0 if len(parts) == 1 else int(parts[1]))
 
-        elif cmd_name == "echo":
-            print(" ".join(cmd_args))
-            continue
-
-        elif cmd_name == "type":
-            if len(cmd_args) == 0:
+        # Handle `echo` (print everything after "echo")
+        elif parts[0] == "echo":
+            print(" ".join(parts[1:]))
+        
+        # Handle `type` command
+        elif parts[0] == "type":
+            if len(parts) < 2:
                 print("Usage: type <command>")
                 continue
-            target_command = cmd_args[0]
-            
-            # Check if it's a built-in command
-            if target_command in ["exit", "echo", "type"]:
-                print(f"{target_command} is a shell builtin")
-            else:
-                # Search in PATH
-                exe_path = find_executable(target_command)
-                if exe_path:
-                    print(f"{target_command} is {exe_path}")
-                else:
-                    print(f"{target_command}: not found")
-            continue
-        
-        # Search for external program in PATH
-        exe_path = find_executable(cmd_name)
-        if exe_path:
-            try:
-                # Execute the command with arguments and print output
-                result = subprocess.run([exe_path] + cmd_args, text=True)
-            except Exception as e:
-                print(f"Error executing {cmd_name}: {e}")
-        else:
-            print(f"{cmd_name}: command not found")
 
+            cmd_name = parts[1]
+            target1 = cmd_args[0]
+
+            # Check if it's a builtin
+            if cmd_name in builtins:
+                print(f"{cmd_name} is a shell builtin")
+            else:
+                exe_path = find_executable(target1)
+                if exe_path:
+                    print(f'{target1} is {exe_path}]')
+                else:
+                    print(f'{target1}: not found')
+                continue
+            
+            # Search in PATH
+            exe_path = find_executable(target1)
+            if exe_path:
+                try:
+                    subprocess.run([cmd_name] + target1)
+                except Exception as e:
+                    print(f"Error executing {cmd_name}: {e}")
+            else:
+                print(f'{cmd_name}: not found')
+        
+        # If command is unknown
+            
+            # Find and run the command.exe
+            # exe_path = find_executable(cmd_name)
+            # if exe_path:
+            #     try:
+            #         subprocess.run([exe_path] + cmd_args)
+            #     except Exception as e:
+            #      print(f"Error executing {cmd_name}: {e}")
+            # else:
+            #  print(f"{cmd_name}: command not found")
+    
 if __name__ == "__main__":
     main()
