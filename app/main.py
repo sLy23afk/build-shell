@@ -61,7 +61,7 @@ def main():
         if exe_path:
             try:
                 # Run the external command with arguments
-                subprocess.run([exe_path] + cmd_args, text=True)
+                subprocess.run([exe_path] + cmd_args, executable = exe_path text=True)
             except Exception as e:
                 print(f"Error executing {cmd_name}: {e}")
         else:
