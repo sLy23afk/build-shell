@@ -39,13 +39,13 @@ def main():
         
         # Handle `type` command
         elif parts[0] == "type":
-            if len(parts) < 2:
+            if len(parts) < 1:
                 print("Usage: type <command>")
                 continue
             target1 = cmd_args[0]
 
             # Check if it's a builtin
-            if cmd_name in builtins:
+            if target1 in builtins:
                 print(f"{cmd_name} is a shell builtin")
             else:
                 exe_path = find_executable(target1)
@@ -59,7 +59,7 @@ def main():
             exe_path = find_executable(cmd_name)
             if exe_path:
                 try:
-                    subprocess.run([cmd_name] + target1)
+                    subprocess.run([cmd_name] + cmd_args, text=True)
                 except Exception as e:
                     print(f"Error executing {cmd_name}: {e}")
             else:
