@@ -29,7 +29,7 @@ def main():
             parts = command.split()
             cmd_name = parts[0]
             cmd_args = parts[1:]
-
+            
             # Handle exit
             if cmd_name == "exit":
                 sys.exit(0 if len(parts) == 1 else int(parts[1]))
@@ -66,7 +66,7 @@ def main():
               except Exception as e:
                     print(f"Error executing {cmd_name}: {e}")
              else:
-               continue
+                 print(f'{cmd_name}: command not found')
 
         except EOFError:
             break  # Handle Ctrl+D (graceful exit)
