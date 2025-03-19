@@ -59,7 +59,7 @@ def main():
                 if exe_path:
                     try:
                         # Let the external program print its own output
-                        subprocess.run([exe_path] + cmd_args)
+                        subprocess.run([exe_path] + cmd_args, executable=exe_path)
                     except Exception as e:
                         print(f"Error executing {cmd_name}: {e}")
                 else:
