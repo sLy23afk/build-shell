@@ -47,7 +47,7 @@ def main():
                 if len(cmd_args) == 0:
                     try:
                         os.chdir(os.path.expanduser('~'))
-                    except Exception as e:\
+                    except Exception as e:
                         print(f"cd: {e}")
                 else:
                         try:
