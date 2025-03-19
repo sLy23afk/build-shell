@@ -14,7 +14,7 @@ def find_executable(command):
  
  
 def main():
-    builtins = {"echo", "exit", "type"}
+    builtins = {"echo", "exit", "pwd", "type"  }
     
     while True:
         try:
