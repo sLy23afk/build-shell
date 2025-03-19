@@ -49,13 +49,14 @@ def main():
                         os.chdir(os.path.expanduser('~'))
                     except Exception as e:\
                         print(f"cd: {e}")
-                    else:
+                else:
                         try:
                             os.chdir(cmd_args[0])
                         except FileNotFoundError:
-                            print(f"cd: {cmd_args[0]}: No such file or directory"
+                            print(f"cd: {cmd_args[0]}: No such file or directory")
                         except Exception as e:
                             print(f"cd: {e}")
+                            
                             
                         
             # Handle type
