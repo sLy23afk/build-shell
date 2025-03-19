@@ -14,7 +14,7 @@ def find_executable(command):
  
  
 def main():
-    builtins = {"echo", "exit", "pwd", "type"  }
+    builtins = {"echo", "exit", "pwd", "cd", "type" }
     
     while True:
         try:
@@ -42,6 +42,22 @@ def main():
             elif cmd_name == "pwd":
                 print(os.getcwd())
             
+            # Handles cd 
+            elif cmd_name == "cd":
+                if len(cmd_args) == 0:
+                    try:
+                        os.chdir(os.path.expanduser('~'))
+                    except Exception as e:\
+                        print(f"cd: {e}")
+                    else:
+                        try:
+                            os.chdir(cmd_args[0])
+                        except FileNotFoundError:
+                            print(f"cd: {cmd_args[0]}: No such file or directory"
+                        except Exception as e:
+                            print(f"cd: {e}")
+                            
+                        
             # Handle type
             elif cmd_name == "type":
                 if len(cmd_args) == 0:
