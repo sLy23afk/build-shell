@@ -44,7 +44,7 @@ def main():
             
             # Handles cd 
             elif cmd_name == "cd":
-                if len(cmd_args) == 0:
+                if len(cmd_args) == 0 or cmd_args == "~":
                     try:
                         os.chdir(os.path.expanduser('~'))
                     except Exception as e:
