@@ -1,72 +1,68 @@
 import sys
+import subprocess
 import os
+
+def is_executable(path):
+    return os.path.isfile(path) and os.access(path, os.X_OK)
+
+def find_executable(command):
+    for directory in os.environ.get("PATH", "").split(":"):
+        possible_path = os.path.join(directory, command)
+        if is_executable(possible_path):
+            return possible_path
+    return None
 
 def main():
     builtins = {"echo", "exit", "type"}  # List of shell builtins
-
+    
     while True:
-        sys.stdout.write("$ ")
-        sys.stdout.flush()
-        command = input().strip()
-
-        if not command:
-            continue
-
-        parts = command.split()
-        cmd_name = parts[0]
-        cmd_args = parts[1:]
-
-        if cmd_name == "exit":
-            if len(parts) == 1:
-                sys.exit(0)
-            else:
-                sys.exit(int(parts[1]))
-
-        elif cmd_name == "echo":
-            print(" ".join(cmd_args))
-
-        elif cmd_name == "type":
-            if len(cmd_args) < 1:
-                print("Usage: type <command>")
+        try:
+            sys.stdout.write("$ ")
+            sys.stdout.flush()
+            command = input().strip()
+            
+            if not command:
                 continue
-            target = cmd_args[0]
 
-            if target in builtins:
-                print(f"{target} is a shell builtin")
-            else:
-                # Try to run the external program
-                try:
-                    # Use os.environ['PATH'] to find the executable
-                    executable_path = find_executable(target)
-                    if executable_path:
-                        # Run the executable with arguments
-                        run_external_program(executable_path, cmd_args)
+            parts = command.split()
+            cmd_name = parts[0]
+            cmd_args = parts[1:]
+
+            # Handle exit
+            if cmd_name == "exit":
+                sys.exit(0 if len(parts) == 1 else int(parts[1]))
+
+            # Handle echo
+            elif cmd_name == "echo":
+                print(" ".join(cmd_args))
+
+            # Handle type
+            elif cmd_name == "type":
+                if len(cmd_args) == 0:
+                    print("Usage: type <command>")
+                    continue
+                target = cmd_args[0]
+                if target in builtins:
+                    print(f"{target} is a shell builtin")
+                else:
+                    exe_path = find_executable(target)
+                    if exe_path:
+                        print(f"{target} is {exe_path}")
                     else:
-                        print(f"Error: command '{target}' not found")
-                except Exception as e:
-                    print(f"Error: {e}")
+                        print(f"{target}: not found")
 
-def find_executable(program):
-    # Split the PATH environment variable into a list of directories
-    path_dirs = os.environ['PATH'].split(os.pathsep)
+            # Run external command
+            else:
+                exe_path = find_executable(cmd_name)
+                if exe_path:
+                    try:
+                        subprocess.run([exe_path] + cmd_args)
+                    except Exception as e:
+                        print(f"Error executing {cmd_name}: {e}")
+                else:
+                    print(f"{cmd_name}: command not found")
 
-    # Iterate over the directories and check if the program exists
-    for dir in path_dirs:
-        executable_path = os.path.join(dir, program)
-        if os.path.exists(executable_path) and os.access(executable_path, os.X_OK):
-            return executable_path
-
-    # If the program is not found, return None
-    return None
-
-def run_external_program(executable_path, args):
-    # Use subprocess to run the executable with arguments
-    import subprocess
-    try:
-        output = subprocess.check_output([executable_path] + args)
-        print(output.decode('utf-8'))
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
-
-if __name__ == "__main__":
-    main()
+        except EOFError:
+            break  # Handle Ctrl+D
+        except KeyboardInterrupt:
+            print()  # Handle Ctrl+C gracefully
