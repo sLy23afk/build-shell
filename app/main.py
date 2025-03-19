@@ -2,21 +2,22 @@ import sys
 import subprocess
 import os
 
-def executepth(path):
- return os.path.isfile(path) and os.access(path, os.X_OK)
-def findexe(command):
- for directory in os.environ.get("PATH", " ").split(":"):
-     possiblepath = os.path.join(directory, command)
-     if executepth(possiblepath):
-         return possiblepath
-     return None
+def is_executable(path):
+    return os.path.isfile(path) and os.access(path, os.X_OK)
 
+def find_executable(command):
+    for directory in os.environ.get("PATH", "").split(":"):
+        possible_path = os.path.join(directory, command)
+        if is_executable(possible_path):
+            return possible_path
+    return None
+ 
+ 
 def main():
     builtins = {"echo", "exit", "type"}
     
     while True:
         try:
-            # Always print the prompt before reading input
             sys.stdout.write("$ ")
             sys.stdout.flush()
 
