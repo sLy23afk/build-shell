@@ -52,6 +52,7 @@ def main():
                         print(f"{target} is {exe_path}")
                     else:
                         print(f"{target}: not found")
+                        continue
 
             # Handle external executable
             else:
