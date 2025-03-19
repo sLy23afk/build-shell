@@ -13,14 +13,16 @@ def find_executable(command):
     return None
 
 def main():
-    builtins = {"echo", "exit", "type"}  # List of shell builtins
+    builtins = {"echo", "exit", "type"}
     
     while True:
         try:
+            # Always print the prompt before reading input
             sys.stdout.write("$ ")
             sys.stdout.flush()
+
             command = input().strip()
-            
+
             if not command:
                 continue
 
@@ -51,11 +53,12 @@ def main():
                     else:
                         print(f"{target}: not found")
 
-            # Run external command
+            # Handle external executable
             else:
                 exe_path = find_executable(cmd_name)
                 if exe_path:
                     try:
+                        # Let the external program print its own output
                         subprocess.run([exe_path] + cmd_args)
                     except Exception as e:
                         print(f"Error executing {cmd_name}: {e}")
@@ -63,6 +66,9 @@ def main():
                     print(f"{cmd_name}: command not found")
 
         except EOFError:
-            break  # Handle Ctrl+D
+            break  # Handle Ctrl+D (graceful exit)
         except KeyboardInterrupt:
-            print()  # Handle Ctrl+C gracefully
+            print()  # Print newline after Ctrl+C and continue
+
+if __name__ == "__main__":
+    main()
