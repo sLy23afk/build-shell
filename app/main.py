@@ -55,15 +55,14 @@ def main():
 
             # Handle external executable
             else:
-                exe_path = find_executable(cmd_name)
-                if exe_path:
-                    try:
-                        # Let the external program print its own output
-                        subprocess.run([exe_path] + cmd_args, executable=exe_path)
-                    except Exception as e:
-                        print(f"Error executing {cmd_name}: {e}")
-                else:
-                    print(f"{cmd_name}: command not found")
+             exe_path = find_executable(cmd_name)
+            if exe_path:
+             try:
+               subprocess.run([cmd_name] + cmd_args, executable=exe_path)
+             except Exception as e:
+              print(f"Error executing {cmd_name}: {e}")
+             else:
+               print(f"{cmd_name}: command not found")
 
         except EOFError:
             break  # Handle Ctrl+D (graceful exit)
