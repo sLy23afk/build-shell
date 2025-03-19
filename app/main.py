@@ -44,11 +44,11 @@ def main():
             
             # Handles cd 
             elif cmd_name == "cd":
-                if len(cmd_args) == 0 or cmd_args == "~":
+                if cmd_args[0] == '~':
                     try:
                         os.chdir(os.path.expanduser('~'))
                     except Exception as e:
-                        print(f"cd: {e}")
+                        print(f"cd: {e}")       
                 else:
                         try:
                             os.chdir(cmd_args[0])
