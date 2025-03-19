@@ -68,6 +68,7 @@ def main():
             break  # Handle Ctrl+D (graceful exit)
         except KeyboardInterrupt:
             print()  # Print newline after Ctrl+C and continue
+            continue
 
 if __name__ == "__main__":
     main()
