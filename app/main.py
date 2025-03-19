@@ -38,7 +38,10 @@ def main():
             elif cmd_name == "echo":
                 print(" ".join(cmd_args))
                 
-
+            # Handles pwd argument
+            elif cmd_name == "pwd":
+                print(os.getcwd())
+            
             # Handle type
             elif cmd_name == "type":
                 if len(cmd_args) == 0:
@@ -72,6 +75,6 @@ def main():
             break  # Handle Ctrl+D (graceful exit)
         except KeyboardInterrupt:
             print()  # Print newline after Ctrl+C and continue
-
+     
 if __name__ == "__main__":
     main()
