@@ -62,13 +62,12 @@ def main():
              except Exception as e:
               print(f"Error executing {cmd_name}: {e}")
              else:
-               print(f"{cmd_name}: command not found")
+               continue
 
         except EOFError:
             break  # Handle Ctrl+D (graceful exit)
         except KeyboardInterrupt:
             print()  # Print newline after Ctrl+C and continue
-            continue
 
 if __name__ == "__main__":
     main()
