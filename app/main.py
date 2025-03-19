@@ -37,6 +37,7 @@ def main():
             # Handle echo
             elif cmd_name == "echo":
                 print(" ".join(cmd_args))
+                
 
             # Handle type
             elif cmd_name == "type":
@@ -58,11 +59,12 @@ def main():
             # Handle external executable
             else:
              exe_path = find_executable(cmd_name)
-            if exe_path:
-             try:
-               subprocess.run([cmd_name] + cmd_args, executable=exe_path)
-             except Exception as e:
-              print(f"Error executing {cmd_name}: {e}")
+             
+             if exe_path:
+              try:
+                 subprocess.run([cmd_name] + cmd_args, executable=exe_path)
+              except Exception as e:
+                    print(f"Error executing {cmd_name}: {e}")
              else:
                continue
 
