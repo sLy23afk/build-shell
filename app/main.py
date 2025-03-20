@@ -20,7 +20,7 @@ def common_name(prefix):
             for filename in os.listdir(directory):
                     if filename.startswith(prefix):
                         filepath = os.path.join(directory, filename)
-                        if is_executable(filename) and filename not in matches:
+                        if is_executable(filepath) and filename not in matches:
                             matches.append(filename)
         
         except FileNotFoundError:
@@ -47,11 +47,11 @@ def completer(text, state):
         
     last_completion_text = buffer
     
-    if tab_press_count == 1 and len(matches)> 1:
+    if tab_press_count == 1 and len(matches)> 1 and state == 0:
             print('\a', end="", flush= True)
             return None
     elif tab_press_count == 2 and len(matches) > 1 and state == 0:
-            print("\n" + " ".join(matches))
+            print("\n" + "  ".join(matches))
             print("$ ",end="", flush=True)
             tab_press_count = 0
             return None
@@ -74,9 +74,8 @@ readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
 def main():
     builtins = {"echo", "exit", "pwd", "cd", "type" }
-    
-    readline.set_completer(completer)
-    readline.parse_and_bind('tab: complete')
+    global tab_press_count
+    tab_press_count = 0
     
     while True:
         try:
@@ -84,7 +83,6 @@ def main():
             sys.stdout.flush()
 
             command = input().strip()
-            tab_press_count = 0
 
             if not command:
                 continue
