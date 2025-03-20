@@ -39,16 +39,16 @@ def completer(text, state):
     if readline.get_line_buffer().startswith(last_completion_text):
         tab_press_count += 1
     else:
-        tab_press_count = 0
+        tab_press_count = 1
         
     last_completion_text = readline.get_line_buffer()
+    
     if tab_press_count == 1 and len(matches)> 1:
-            print('\a', ends="", flush= True)
+            print('\a', end="", flush= True)
             return None
     elif tab_press_count == 2 and len(matches) > 1:
             print("  ".join(matches))
-            sys.stdout.write("$ ")
-            sys.stdout.flush()
+            sys.stdout.write("$ ",end="", flush=True)
             tab_press_count = 0
             return None
         
