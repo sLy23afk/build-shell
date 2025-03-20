@@ -33,6 +33,7 @@ def completer(text, state):
     builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
     matches = [cmd for cmd in builtin if cmd.startswith(text)]
     external_matches = common_name(text)
+    matches.append(external_matches)
     if readline.get_line_buffer().startswith(last_completion_text):
         tab_press_count += 1
     else:
