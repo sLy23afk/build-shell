@@ -2,6 +2,7 @@ import sys
 import subprocess
 import os
 import shlex
+import readline
 
 def is_executable(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
@@ -12,10 +13,18 @@ def find_executable(command):
         if is_executable(possible_path):
             return possible_path
     return None
+
+def completer(text, state):
+    builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
+    matches = [cmd for cmd in builtin if cmd.startswith(text)]
+    return matches[state] if state < len(matches) else None
  
  
 def main():
     builtins = {"echo", "exit", "pwd", "cd", "type" }
+    
+    readline.set_completer(completer)
+    readline.parse_and_bind('tab: complete')
     
     while True:
         try:
