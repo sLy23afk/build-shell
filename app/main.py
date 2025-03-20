@@ -25,15 +25,17 @@ def common_name(prefix):
         
         except FileNotFoundError:
           continue
+     return matches
     
 last_completion_text = ""
 tab_press_count = 0
 
 def completer(text, state):
+    global last_completion_text, tab_press_count
     builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
     matches = [cmd for cmd in builtin if cmd.startswith(text)]
     external_matches = common_name(text)
-    matches.append(external_matches)
+    matches.extend(external_matches)
     if readline.get_line_buffer().startswith(last_completion_text):
         tab_press_count += 1
     else:
@@ -41,7 +43,7 @@ def completer(text, state):
         
     last_completion_text = readline.get_line_buffer()
     if tab_press_count == 1 and len(matches)> 1:
-            print('\a', ends=" ", flush= True)
+            print('\a', ends="", flush= True)
             return None
     elif tab_press_count == 2 and len(matches) > 1:
             print("  ".join(matches))
