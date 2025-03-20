@@ -42,7 +42,7 @@ def completer(text, state):
         if tab_press_count == 1 and len(matches)> 1:
             print('\a', ends=" ", flush= True)
             return None
-        elif tab_press_count > 2 and len(matches) > 1:
+        elif tab_press_count == 2 and len(matches) > 1:
             print()
             print(" ".join(matches))
             sys.stdout.write("$ ")
