@@ -17,6 +17,16 @@ def find_executable(command):
 def completer(text, state):
     builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
     matches = [cmd for cmd in builtin if cmd.startswith(text)]
+    for directory in os.environ.get("PATH", "").split(":"):
+        try:
+            for filename in os.listdir(directory):
+                if filename.startswith(text):
+                    filepath = os.path.join(directory, filename)
+                    if is_executable(filepath) and filename not in matches:
+                        matches.append(filename)
+        except FileNotFoundError:
+            continue 
+    
     return matches[state] if state < len(matches) else None
  
  
