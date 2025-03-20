@@ -25,7 +25,8 @@ def common_name(prefix):
         
         except FileNotFoundError:
           continue
-     return matches
+     return sorted(matches)
+ 
     
 last_completion_text = ""
 tab_press_count = 0
@@ -38,6 +39,7 @@ def completer(text, state):
     
     external_matches = common_name(text)
     matches.extend(external_matches)
+    matches = sorted(set(matches))
     buffer = readline.get_line_buffer()
     
     if buffer.startswith(last_completion_text):
