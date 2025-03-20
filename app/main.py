@@ -39,32 +39,30 @@ def completer(text, state):
     else:
         tab_press_count = 0
         
-        last_completion_text = readline.get_line_buffer()
-        if tab_press_count == 1 and len(matches)> 1:
+    last_completion_text = readline.get_line_buffer()
+    if tab_press_count == 1 and len(matches)> 1:
             print('\a', ends=" ", flush= True)
             return None
-        elif tab_press_count == 2 and len(matches) > 1:
-            print()
+    elif tab_press_count == 2 and len(matches) > 1:
             print(" ".join(matches))
             sys.stdout.write("$ ")
             sys.stdout.flush
             tab_press_count = 0
             return None
         
-        else:
+    else:
             return matches[state] + ' ' if state < len(matches) else None
-    matches.extend(external_matches)
-    for directory in os.environ.get("PATH", "").split(":"):
-        try:
-            for filename in os.listdir(directory):
-                if filename.startswith(text):
-                    filepath = os.path.join(directory, filename)
-                    if is_executable(filepath) and (filename + ' ') not in matches:
-                        matches.append(filename + ' ')
-        except FileNotFoundError:
-            continue 
+    # for directory in os.environ.get("PATH", "").split(":"):
+    #     try:
+    #         for filename in os.listdir(directory):
+    #             if filename.startswith(text):
+    #                 filepath = os.path.join(directory, filename)
+    #                 if is_executable(filepath) and (filename + ' ') not in matches:
+    #                     matches.append(filename + ' ')
+    #     except FileNotFoundError:
+    #         continue 
     
-    return matches[state] if state < len(matches) else None
+    # return matches[state] if state < len(matches) else None
  
 readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
