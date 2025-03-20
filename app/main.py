@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import os
+import shlex
 
 def is_executable(path):
     return os.path.isfile(path) and os.access(path, os.X_OK)
@@ -25,8 +26,8 @@ def main():
 
             if not command:
                 continue
-
-            parts = command.split()
+            
+            parts = shlex.split(command)
             cmd_name = parts[0]
             cmd_args = parts[1:]
             
@@ -36,6 +37,7 @@ def main():
 
             # Handle echo
             elif cmd_name == "echo":
+                if 
                 print(" ".join(cmd_args))
                 
             # Handles pwd argument
