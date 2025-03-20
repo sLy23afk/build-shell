@@ -54,7 +54,7 @@ def completer(text, state):
             return None
     elif tab_press_count == 2 and len(matches) > 1 and state == 0:
             print("\n" + "  ".join(matches))
-            print("$ ",end="", flush=True)
+            print(f"$ {buffer}", end="", flush=True)
             tab_press_count = 0
             return None
         
