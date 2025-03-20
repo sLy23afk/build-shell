@@ -22,8 +22,8 @@ def completer(text, state):
             for filename in os.listdir(directory):
                 if filename.startswith(text):
                     filepath = os.path.join(directory, filename)
-                    if is_executable(filepath) and filename not in matches:
-                        matches.append(filename)
+                    if is_executable(filepath) and (filename + ' ') not in matches:
+                        matches.append(filename + ' ')
         except FileNotFoundError:
             continue 
     
