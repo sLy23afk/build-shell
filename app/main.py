@@ -57,20 +57,18 @@ def completer(text, state):
             print(f"$ {buffer}", end="", flush=True)
             tab_press_count = 0
             return None
-        
-    else:
-            return matches[state] + ' ' if state < len(matches) else None
-    # for directory in os.environ.get("PATH", "").split(":"):
-    #     try:
-    #         for filename in os.listdir(directory):
-    #             if filename.startswith(text):
-    #                 filepath = os.path.join(directory, filename)
-    #                 if is_executable(filepath) and (filename + ' ') not in matches:
-    #                     matches.append(filename + ' ')
-    #     except FileNotFoundError:
-    #         continue 
+    for directory in os.environ.get("PATH", "").split(":"):
+        try:
+            for filename in os.listdir(directory):
+                if filename.startswith(text):
+                    filepath = os.path.join(directory, filename)
+                    if is_executable(filepath) and (filename + ' ') not in matches:
+                        matches.append(filename + ' ')
+        except FileNotFoundError:
+            continue 
     
-    # return matches[state] if state < len(matches) else None
+    return matches[state] + ' ' if state < len(matches) else None
+
  
 readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
@@ -79,6 +77,8 @@ def main():
     global tab_press_count
     tab_press_count = 0
     
+    readline.set_completer(completer)
+    readline.parse_and_bind("tab: complete")
     while True:
         try:
             sys.stdout.write("$ ")
