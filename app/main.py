@@ -34,7 +34,7 @@ tab_press_count = 0
 def completer(text, state):
     global last_completion_text, tab_press_count
     
-    builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
+    builtin = ["echo", "exit", "type", "pwd", "cd"]
     matches = [cmd for cmd in builtin if cmd.startswith(text)]
     
     external_matches = common_name(text)
