@@ -37,7 +37,6 @@ def main():
 
             # Handle echo
             elif cmd_name == "echo":
-                if 
                 print(" ".join(cmd_args))
                 
             # Handles pwd argument
