@@ -13,10 +13,46 @@ def find_executable(command):
         if is_executable(possible_path):
             return possible_path
     return None
+def common_name(prefix):
+     matches = []
+     for directory in os.environ.get("PATH", "").split(":"):
+        try:
+            for filename in os.listdir(directory):
+                    if filename.startswith(prefix):
+                        filepath = os.path.join(directory, filename)
+                        if is_executable(filename) and filename not in matches:
+                            matches.append(filename)
+        
+        except FileNotFoundError:
+          continue
+    
+last_completion_text = ""
+tab_press_count = 0
 
 def completer(text, state):
     builtin = ["echo ", "exit ", "type ", "pwd ", "cd "]
     matches = [cmd for cmd in builtin if cmd.startswith(text)]
+    external_matches = common_name(text)
+    if readline.get_line_buffer().startswith(last_completion_text):
+        tab_press_count += 1
+    else:
+        tab_press_count = 0
+        
+        last_completion_text = readline.get_line_buffer()
+        if tab_press_count == 1 and len(matches)> 1:
+            print('\a', ends=" ", flush= True)
+            return None
+        elif tab_press_count > 2 and len(matches) > 1:
+            print()
+            print(" ".join(matches))
+            sys.stdout.write("$ ")
+            sys.stdout.flush
+            tab_press_count = 0
+            return None
+        
+        else:
+            return matches[state] + ' ' if state < len(matches) else None
+    matches.extend(external_matches)
     for directory in os.environ.get("PATH", "").split(":"):
         try:
             for filename in os.listdir(directory):
@@ -29,7 +65,8 @@ def completer(text, state):
     
     return matches[state] if state < len(matches) else None
  
- 
+readline.set_completer(completer)
+readline.parse_and_bind("tab: complete")
 def main():
     builtins = {"echo", "exit", "pwd", "cd", "type" }
     
@@ -42,6 +79,7 @@ def main():
             sys.stdout.flush()
 
             command = input().strip()
+            tab_press_count = 0
 
             if not command:
                 continue
