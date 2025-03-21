@@ -135,17 +135,26 @@ def main():
             if '>' in command:
                 parts = command.split('>')
                 cmd_part = parts[0].strip()
-                output_file = parts[1].strip()
-            
+                file_part = parts[1].strip()
+
+    # Handle 1> (optional)
                 if cmd_part.endswith('1'):
-                    cmd_part = cmd_part[:-1].strip()
-                cmd_args = shlex.split(cmd_part)
-                
-                with open(output_file, 'w') as f:
-                    subprocess.run(cmd_args, stdout= f , stderr=None)
-            else:
-                cmd_args = shlex.split(command)
-                subprocess.run(cmd_args)
+                 cmd_part = cmd_part[:-1].strip()  # remove the '1'
+
+                 cmd_args = shlex.split(cmd_part)
+                 output_file = file_part
+
+    # Find executable
+                 exe_path = find_executable(cmd_args[0])
+                 if exe_path:
+                     with open(output_file, 'w') as f:
+                         try:
+                             subprocess.run(cmd_args, executable=exe_path, stdout=f)
+                         except Exception as e:
+                          print(f"Error: {e}")
+                 else:
+                     print(f"{cmd_args[0]}: command not found")
+                     continue  # Skip the rest of the loop to avoid reprocessing
             
             parts = shlex.split(command)
             cmd_name = parts[0]
