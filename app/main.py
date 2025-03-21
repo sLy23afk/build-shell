@@ -13,6 +13,17 @@ def find_executable(command):
         if is_executable(possible_path):
             return possible_path
     return None
+def longest_common_prefix(strs):
+    if not strs:
+        return ""
+    prefix = strs[0]
+    for s in strs[1:]:
+        while not s.startswith(prefix):
+            prefix = prefix[:-1]
+            if not prefix:
+                break
+            return prefix
+        
 def common_name(prefix):
      matches = []
      for directory in os.environ.get("PATH", "").split(":"):
@@ -42,6 +53,30 @@ def completer(text, state):
     matches = sorted(set(matches))
     buffer = readline.get_line_buffer()
     
+    if buffer == last_completion_text:
+        tab_press_count += 1
+    else:
+        tab_press_count = 1
+        last_completion_text = buffer
+        matches = sorted(set(matches))
+    if not matches:
+         return None
+    if len(matches) == 1:
+        return matches[0] + ' ' if state == 0 else None
+    
+    if len(common_name) > len(text):
+        if state == 0:
+            return common_name
+        else:
+            return None
+    if tab_press_count == 1 and state == 0:
+        print('\a', end="", flush= True)
+        return None
+    elif tab_press_count == 2 and len(matches) > 1 and state == 0:
+            print("\n" + "  ".join(matches))
+            print(f"$ {buffer}", end="", flush=True)
+            tab_press_count = 0
+            return None  
     if buffer.startswith(last_completion_text):
         tab_press_count += 1
     else:
