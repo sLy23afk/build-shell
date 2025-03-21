@@ -113,6 +113,8 @@ def completer(text, state):
  
 readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
+
+
 def main():
     builtins = {"echo", "exit", "pwd", "cd", "type" }
     global tab_press_count
@@ -129,6 +131,21 @@ def main():
 
             if not command:
                 continue
+            
+            if '>' in command:
+                parts = command.split('>')
+                cmd_part = parts[0].strip()
+                output_file = parts[1].strip()
+            
+                if cmd_part.endswith(1):
+                    cmd_part = cmd_part[:-1].strip()
+                cmd_args = shlex.split(cmd_part)
+                
+                with open(output_file, 'w') as f:
+                    subprocess.run(cmd_args, stdout= f , stderr=None)
+            else:
+                cmd_args = shlex.split(command)
+                subprocess.run(cmd_args)
             
             parts = shlex.split(command)
             cmd_name = parts[0]
