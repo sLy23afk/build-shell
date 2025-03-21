@@ -137,7 +137,7 @@ def main():
                 cmd_part = parts[0].strip()
                 output_file = parts[1].strip()
             
-                if cmd_part.endswith(1):
+                if cmd_part.endswith('1'):
                     cmd_part = cmd_part[:-1].strip()
                 cmd_args = shlex.split(cmd_part)
                 
