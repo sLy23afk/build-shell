@@ -13,6 +13,7 @@ def find_executable(command):
         if is_executable(possible_path):
             return possible_path
     return None
+
 def longest_common_prefix(strs):
     if not strs:
         return ""
@@ -22,7 +23,7 @@ def longest_common_prefix(strs):
             prefix = prefix[:-1]
             if not prefix:
                 break
-            return prefix
+    return prefix
         
 def common_name(prefix):
      matches = []
@@ -64,19 +65,24 @@ def completer(text, state):
     if len(matches) == 1:
         return matches[0] + ' ' if state == 0 else None
     
-    if len(common_name) > len(text):
-        if state == 0:
-            return common_name
-        else:
+    lcp = longest_common_prefix(matches)
+    if lcp != text and state == 0:
+        return lcp  # Complete to LCP on first Tab
+    elif lcp == text:
+        # Tab x1 beep, Tab x2 show options
+        if tab_press_count == 1 and state == 0:
+            print('\a', end="", flush=True)
             return None
-    if tab_press_count == 1 and state == 0:
-        print('\a', end="", flush= True)
-        return None
-    elif tab_press_count == 2 and len(matches) > 1 and state == 0:
+        elif tab_press_count == 2 and state == 0:
             print("\n" + "  ".join(matches))
             print(f"$ {buffer}", end="", flush=True)
             tab_press_count = 0
-            return None  
+            return None
+    
+
+    readline.set_completer(completer)
+    readline.parse_and_bind("tab: complete")
+    
     if buffer.startswith(last_completion_text):
         tab_press_count += 1
     else:
