@@ -160,12 +160,13 @@ def main():
 
             if not command:
                 continue
+            redirection_handled = False
             
             if '>' in command:
-              if handle_redirection(command):
+                redirection_handled = handle_redirection(command)
                 continue
             
-            if '>' in command:
+            if '>' in command and not redirection_handled:
                 parts = command.split('>')
                 cmd_part = parts[0].strip()
                 file_part = parts[1].strip()
