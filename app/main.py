@@ -25,20 +25,20 @@ def longest_common_prefix(strs):
                 break
     return prefix
         
-def handle_rejection(command):
-    redir_parts = command.split('>')
-    if len(redir_parts) != 2:
+def handle_redirection(command):
+    if "1>" in command:
+       command = command.replace("1>", ">")
+    
+    if ">" not in command:
         return False
     
-    cmd_part = redir_parts[0].strip()
-    file_part = redir_parts[1].strip()
-    
-    if cmd_part.endswith('1'):
-        cmd_part = cmd_part[:-1].strip()
-        
-    cmd_args = shlex.split(cmd_part)
-    output_file = file_part
-    
+    parts = command.split('>')
+    if len(parts) != 2:
+        return False
+    cmd_part = parts[0].strip()
+    output_file = parts[1].strip()
+    cmd_args = shlex.split(cmd_part)   
+          
     parent_dir = os.path.dirname(output_file)
     if not os.path.exists(parent_dir):
         print(f'{output_file}: No such file in the directory')
@@ -47,7 +47,7 @@ def handle_rejection(command):
     if exe_path:
         with open(output_file, 'w') as f:
             try:
-                subprocess.run(exe_path, executable=exe_path, stdout=f)
+                subprocess.run(cmd_args, executable=exe_path, stdout=f)
             except Exception as e:
                 print(f'Error: {e}')
     else:
@@ -161,14 +161,15 @@ def main():
             if not command:
                 continue
             
-            if handle_rejection(command):
+            if '>' in command:
+              if handle_redirection(command):
                 continue
             
             if '>' in command:
                 parts = command.split('>')
                 cmd_part = parts[0].strip()
                 file_part = parts[1].strip()
-
+        
     # Handle 1> (optional)
                 if cmd_part.endswith('1'):
                  cmd_part = cmd_part[:-1].strip()  # remove the '1'
