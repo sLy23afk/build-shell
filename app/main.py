@@ -25,7 +25,38 @@ def longest_common_prefix(strs):
                 break
     return prefix
         
-def handle_redirection(command):
+def handle_error_redir(command):
+    if "2>" not in command:
+      return False
+    
+    parts = command.split("2>")
+    if len(parts) != 2:
+        return False
+    cmd_part = parts[0].strip()
+    error_file = parts[1].strip()
+    cmd_args = shlex.split(cmd_part) 
+    
+    parent_dir = os.path.dirname(error_file)
+    if not os.path.exists(parent_dir):
+        print(f"{error_file}: No such file or directory")
+        return True
+    exe_path = find_executable(cmd_args[0])
+    
+    if exe_path
+    with open(error_file, 'w') as f:
+        try:
+            subprocess.run(cmd_args, executable=exe_path , stderr=f)
+        except Exception as e:
+            print(f"Errpr {e}")
+        else:
+            print(f'Error: {cmd_args[0]} not found')
+            return True
+        return True
+    
+
+
+
+def handle_redirection(command):            
     if "1>" in command:
        command = command.replace("1>", ">")
     
@@ -161,6 +192,10 @@ def main():
             if not command:
                 continue
             redirection_handled = False
+            
+            if '2>' in command:
+                if handle_error_redir(command):
+                 continue
             
             if '>' in command:
                 redirection_handled = handle_redirection(command)
