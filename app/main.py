@@ -42,12 +42,13 @@ def handle_error_redir(command):
         return True
     exe_path = find_executable(cmd_args[0])
     
-    if exe_path
-    with open(error_file, 'w') as f:
+    if exe_path:
+    
+     with open(error_file, 'w') as f:
         try:
             subprocess.run(cmd_args, executable=exe_path , stderr=f)
         except Exception as e:
-            print(f"Errpr {e}")
+            print(f"Error {e}")
         else:
             print(f'Error: {cmd_args[0]} not found')
             return True
