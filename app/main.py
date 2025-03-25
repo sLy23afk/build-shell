@@ -41,18 +41,13 @@ def handle_error_redir(command):
         print(f"{error_file}: No such file or directory")
         return True
     exe_path = find_executable(cmd_args[0])
-    
-    if exe_path:
-    
-     with open(error_file, 'w') as f:
-        try:
-            subprocess.run(cmd_args, executable=exe_path , stderr=f)
-        except Exception as e:
+    try:
+        with open(error_file, 'w') as f:
+            subprocess.run(cmd_args, executable=exe_path  if exe_path else None, stderr=f)
+    except Exception as e:
             print(f"Error {e}")
-        else:
-            print(f'Error: {cmd_args[0]} not found')
             return True
-        return True
+    return True
     
 
 
