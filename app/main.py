@@ -25,6 +25,37 @@ def longest_common_prefix(strs):
                 break
     return prefix
         
+def append_file(command):
+    append_mode = False
+    if "1>>" in command:
+       command = command.replace("1>>", ">>")
+    
+    if ">>" not in command:
+        return False
+    
+    parts = command.split('>>')
+    if len(parts) != 2:
+        return False
+    cmd_part = parts[0].strip()
+    output_file = parts[1].strip()
+    cmd_args = shlex.split(cmd_part)   
+          
+    parent_dir = os.path.dirname(output_file)
+    if not os.path.exists(parent_dir):
+        print(f'{output_file}: No such file in the directory')
+        return True
+    exe_path = find_executable(cmd_args[0])
+    mode = 'a' if append_mode else 'w'
+    if exe_path:
+        with open(output_file, 'w') as f:
+            try:
+                subprocess.run(cmd_args, executable=exe_path if exe_path else None, stdout=f)
+            except Exception as e:
+                print(f'Error: {e}')
+                return True
+        return True
+    
+
 def handle_error_redir(command):
     if "2>" not in command:
       return False
